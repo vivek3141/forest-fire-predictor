@@ -8,7 +8,7 @@ from sklearn import preprocessing, svm
 from sklearn.metrics import accuracy_score, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 
-data = pd.read_csv("data.csv")
+data = pd.read_csv("./data.csv")
 x_values = list(data['X'])
 y_values = list(data['Y'])
 month_values = list(data['month'])
