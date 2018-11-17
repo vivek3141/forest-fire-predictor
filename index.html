@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<title>Vector Field Visualizer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body, h1, h2, h3, h4, h5, h6 {
+        font-family: "Lato", sans-serif;
+    }
+
+    body, html {
+        height: 100%;
+        color: #777;
+        line-height: 1.8;
+    }
+</style>
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+            type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-mapevents.js"
+            type="text/javascript" charset="utf-8"></script>
 </head>
-<body>
-$END$
+<body background="img/gravel.png">
+<br>
+<span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">PREDICT <span
+        class="w3-hide-small">FOREST</span> FIRES</span><br>
+<br/><br/>
+<div style="width: 640px; height: 480px" id="mapContainer"></div>
+<br/><br/>
+<footer class="w3-center w3-black w3-padding-64">
+    <div class="w3-xlarge w3-section">
+        <a href="https://youtube.com/vcubingx"><i class="fa fa-youtube w3-hover-opacity"></i></a>
+        <a href="https://github.com/vivek3141"><i class="fa fa-github w3-hover-opacity"></i></a>
+        <a href="https://twitch.tv/vcubingx"><i class="fa fa-twitch w3-hover-opacity"></i></a>
+        <a href="https://twitter.com/vcubingx"><i class="fa fa-twitter w3-hover-opacity"></i></a>
+    </div>
+</footer>
+<script>
+    var platform = new H.service.Platform({
+        'app_id': 'aSx1kGPHauKRZ07pYDEq',
+        'app_code': '5CVV2BcAiNdq5N5oIs8p2Q'
+    });
+    var defaultLayers = platform.createDefaultLayers();
+    var map = new H.Map(document.getElementById('mapContainer'),
+        defaultLayers.normal.map);
+    var mapEvents = new H.mapevents.MapEvents(map);
+    map.addEventListener('tap', function (evt) {
+        console.log(evt.type, evt.currentPointer.type);
+    });
+    var behavior = new H.mapevents.Behavior(mapEvents);
+</script>
 </body>
 </html>
