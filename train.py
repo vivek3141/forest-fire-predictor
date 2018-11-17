@@ -3,20 +3,10 @@ import math
 import numpy as np
 import pandas as pd
 import random
-
-# importing sklearn libraries
-from sklearn import neural_network, linear_model, preprocessing, svm, tree
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+import dill
+from sklearn import preprocessing, svm
 from sklearn.metrics import accuracy_score, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
-from sklearn.naive_bayes import GaussianNB
-
-# importing keras libraries
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
 
 data = pd.read_csv("data.csv")
 x_values = list(data['X'])
@@ -73,3 +63,15 @@ for index in range(0, len(n_x_values)):
     temp_list.append(n_rain_values[index])
 
     n_attribute_list.append(temp_list)
+
+train_x, test_x, train_y, test_y = train_test_split(n_attribute_list, n_area_values, test_size=0.3, random_state=9)
+
+svm_model = svm.SVR()
+
+svm_model.fit(train_x, train_y)
+predicted_y = svm_model.predict(test_x)
+
+print("Mean squared error: ", mean_squared_error(test_y, predicted_y))
+print('Variance score: %.2f' % r2_score(test_y, predicted_y))
+
+dill.dump(svm_model, open("model.pkl", "wb"))
