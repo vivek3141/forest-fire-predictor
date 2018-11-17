@@ -1,26 +1,19 @@
 from flask import Flask
 from flask import request
 import dill
+import numpy as np
 
 app = Flask(__name__)
 
 
 @app.route("/predict")
 def predict():
-    print("hi")
-    X = request.args.get('x')
-    print(X)
-    svm_model = dill.load(open("model.pkl"))
-    predicted = svm_model.predict(list(map(float, X.split(","))))
-    print(predicted)
-    return str(predicted)
-
-
-@app.route("/")
-def main():
-    a = request.args.get('x')
-    print(a)
-    return a
+    data = request.args.get('x')
+    data = data[1:-1]
+    data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
+    svm_model = dill.load(open("model.pkl", "rb"))
+    predicted = svm_model.predict(data)
+    return str(predicted[0])
 
 
 app.run()
