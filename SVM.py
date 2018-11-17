@@ -2,7 +2,6 @@ import numpy as np
 import cvxopt.solvers
 import logging
 
-
 MIN_SUPPORT_VECTOR_MULTIPLIER = 1e-5
 
 
@@ -12,9 +11,6 @@ class SVMTrainer(object):
         self._c = c
 
     def train(self, X, y):
-        """Given the training features X with labels y, returns a SVM
-        predictor representing the trained SVM.
-        """
         lagrange_multipliers = self._compute_multipliers(X, y)
         return self._construct_predictor(X, y, lagrange_multipliers)
 
@@ -34,11 +30,6 @@ class SVMTrainer(object):
         support_multipliers = lagrange_multipliers[support_vector_indices]
         support_vectors = X[support_vector_indices]
         support_vector_labels = y[support_vector_indices]
-
-        # http://www.cs.cmu.edu/~guestrin/Class/10701-S07/Slides/kernels.pdf
-        # bias = y_k - \sum z_i y_i  K(x_k, x_i)
-        # Thus we can just predict an example with bias of zero, and
-        # compute error.
         bias = np.mean(
             [y_k - SVMPredictor(
                 kernel=self._kernel,
@@ -59,21 +50,13 @@ class SVMTrainer(object):
         n_samples, n_features = X.shape
 
         K = self._gram_matrix(X)
-        # Solves
-        # min 1/2 x^T P x + q^T x
-        # s.t.
-        #  Gx \coneleq h
-        #  Ax = b
 
         P = cvxopt.matrix(np.outer(y, y) * K)
         q = cvxopt.matrix(-1 * np.ones(n_samples))
 
-        # -a_i \leq 0
-        # TODO(tulloch) - modify G, h so that we have a soft-margin classifier
         G_std = cvxopt.matrix(np.diag(np.ones(n_samples) * -1))
         h_std = cvxopt.matrix(np.zeros(n_samples))
 
-        # a_i \leq c
         G_slack = cvxopt.matrix(np.diag(np.ones(n_samples)))
         h_slack = cvxopt.matrix(np.ones(n_samples) * self._c)
 
@@ -85,7 +68,6 @@ class SVMTrainer(object):
 
         solution = cvxopt.solvers.qp(P, q, G, h, A, b)
 
-        # Lagrange multipliers
         return np.ravel(solution['x'])
 
 
