@@ -20,12 +20,30 @@ function addDraggableMarker(map, behavior) {
     }, false);
 
     map.addEventListener('drag', function (ev) {
+        console.log(marker.getCurrentPosition());
         var target = ev.target,
             pointer = ev.currentPointer;
         if (target instanceof mapsjs.map.Marker) {
             target.setPosition(map.screenToGeo(pointer.viewportX, pointer.viewportY));
         }
     }, false);
+    const button = document.getElementById("graph");
+
+    button.addEventListener("click", e => {
+        console.log("hi");
+        var endpoint="https://forest-fire.herokuapp.com/predict?c='";
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === this.DONE) {
+                console.debug(this.responseText);
+            }
+        });
+        xhr.open("GET", endpoint);
+        xhr.send();
+
+        var value = 0;
+        document.getElementById("text").textContent = value;
+    });
 }
 
 /**
