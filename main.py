@@ -18,7 +18,7 @@ def main():
 
 @app.route("/predict")
 def predict():
-    c = list(map(int, request.args.get('c')[1:-1].split(",")))
+    c = list(map(float, request.args.get('c')[1:-1].split(",")))
     now = datetime.datetime.now()
     month = now.month
     day = now.day

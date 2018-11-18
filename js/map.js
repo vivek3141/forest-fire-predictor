@@ -20,7 +20,6 @@ function addDraggableMarker(map, behavior) {
     }, false);
 
     map.addEventListener('drag', function (ev) {
-        console.log(marker.getCurrentPosition());
         var target = ev.target,
             pointer = ev.currentPointer;
         if (target instanceof mapsjs.map.Marker) {
@@ -30,8 +29,8 @@ function addDraggableMarker(map, behavior) {
     const button = document.getElementById("graph");
 
     button.addEventListener("click", e => {
-        console.log("hi");
-        var endpoint="https://forest-fire.herokuapp.com/predict?c='";
+        var endpoint="https://forest-fire.herokuapp.com/predict?c='"+marker.getPosition()['lat']+","+marker.getPosition()['lng']+"'";
+        console.log(endpoint);
         const xhr = new XMLHttpRequest();
         xhr.addEventListener("readystatechange", function () {
             if (this.readyState === this.DONE) {
