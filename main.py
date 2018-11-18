@@ -15,6 +15,10 @@ def main():
 @app.route("/predict")
 def predict():
     data = request.args.get('x')
+    c = request.args.get('c')
+    c = c[1:-1]
+    c = list(map(int, c.split(",")))
+
     data = data[1:-1]
     data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
     svm_model = dill.load(open("src/model.pkl", "rb"))
