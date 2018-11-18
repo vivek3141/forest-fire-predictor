@@ -29,18 +29,37 @@ function addDraggableMarker(map, behavior) {
     const button = document.getElementById("graph");
 
     button.addEventListener("click", e => {
-        var endpoint="https://forest-fire.herokuapp.com/predict?c='"+marker.getPosition()['lat']+","+marker.getPosition()['lng']+"'";
+        var endpoint = "https://forest-fire.herokuapp.com/predict?c='" + marker.getPosition()['lat'] + "," + marker.getPosition()['lng'] + "'";
         console.log(endpoint);
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener("readystatechange", function () {
-            if (this.readyState === this.DONE) {
-                console.debug(this.responseText);
-            }
-        });
-        xhr.open("GET", endpoint);
-        xhr.send();
 
-        var value = 0;
+        function makeHttpObject() {
+            try {
+                return new XMLHttpRequest();
+            }
+            catch (error) {
+            }
+            try {
+                return new ActiveXObject("Msxml2.XMLHTTP");
+            }
+            catch (error) {
+            }
+            try {
+                return new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (error) {
+            }
+
+            throw new Error("Could not create HTTP request object.");
+        }
+
+        var request = makeHttpObject();
+        request.open("GET", endpoint, true);
+        request.send(null);
+        request.onreadystatechange = function () {
+            if (request.readyState == 4)
+                alert(request.responseText);
+        };
+
         document.getElementById("text").textContent = value;
     });
 }

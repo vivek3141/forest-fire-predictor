@@ -1,6 +1,5 @@
 from flask import Flask
 from flask import request, make_response
-import tensorflow as tf
 import numpy as np
 import os
 import datetime
@@ -9,8 +8,10 @@ import urllib.request
 from src.fwi import *
 from src.test import build_model
 from keras import backend as K
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/")

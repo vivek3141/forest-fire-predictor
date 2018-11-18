@@ -5,3 +5,4 @@ dill
 keras
 pandas
 tensorflow
+flask-cors
