@@ -2,6 +2,8 @@ from flask import Flask
 from flask import request
 import dill
 import numpy as np
+import os
+port = os.environ['PORT']
 
 app = Flask(__name__)
 
@@ -21,4 +23,4 @@ def predict():
     return str(predicted[0])
 
 
-app.run()
+app.run(port=port)
