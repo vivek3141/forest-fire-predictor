@@ -29,8 +29,8 @@ def predict():
     x2 = -6.515598
     y2 = 41.992531
     y1 = 41.732416
-    X = int((9 * (c[0] - x1)) / (x2 - x1))
-    Y = int((9 * (c[1] - y1)) / (y2 - y1))
+    X = int(math.fabs((9 * (c[0] - x1)) / (x2 - x1)))
+    Y = int(math.fabs((9 * (c[1] - y1)) / (y2 - y1)))
     url = "http://api.openweathermap.org/data/2.5/weather?lat={}&" \
           "lon={}&appid=997248ab2a9c56c05cf48c93efca9b27".format(c[0], c[1])
 
