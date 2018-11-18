@@ -6,7 +6,7 @@ import os
 import datetime
 import json
 import urllib.request
-from fwi import *
+from src.fwi import *
 
 app = Flask(__name__)
 
