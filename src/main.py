@@ -3,7 +3,6 @@ from flask import request
 import dill
 import numpy as np
 import os
-port = os.environ['PORT']
 
 app = Flask(__name__)
 
@@ -23,4 +22,6 @@ def predict():
     return str(predicted[0])
 
 
-app.run(port=port)
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
