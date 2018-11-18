@@ -51,17 +51,47 @@ def predict():
           "lon={}&appid=997248ab2a9c56c05cf48c93efca9b27".format(c[0], c[1])
 
     j = json.load(urllib.request.urlopen(url))
+    temp = 0
+    wind = 0
+    rh = 0
+    rain = 0
+    ffmc = 0
+    dmc = 0
+    dc = 0
+    isi = 0
     try:
         temp = j['main']['temp'] - 273.15
+    except KeyError:
+        pass
+    try:
         wind = j['wind']['speed'] * 3.6
+    except KeyError:
+        pass
+    try:
         rh = j['main']['humidity']
+    except KeyError:
+        pass
+    try:
         rain = ((j['rain']['3h']) / 6) / ((742300000 / 9) ** 2)
+    except KeyError:
+        pass
+    try:
         ffmc = FFMC(temp, rh, wind, j['rain']['3h'] * 8, 57.45)
+    except KeyError:
+        pass
+    try:
         dmc = DMC(temp, rh, j['rain']['3h'] * 8, 146.2, c[0], month)
+    except KeyError:
+        pass
+    try:
         dc = DC(temp, j['rain']['3h'] * 8, 434.25, c[0], month)
+    except KeyError:
+        pass
+    try:
         isi = ISI(wind, ffmc)
     except KeyError:
-        return "Data Not Found!"
+        pass
+
     data = str(X) + "," + str(Y) + "," + str(month) + "," + str(day) + "," + str(ffmc) + "," + str(
         dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind) + ',' + str(
         rain)
