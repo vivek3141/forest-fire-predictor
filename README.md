@@ -1,3 +1,9 @@
+<center>
+
+![Logo](https://raw.githubusercontent.com/vivek3141/forest-fire-predictor/master/img/logo.png)
+
+</center>
+
 # Forest Fire Predictor
 This webapp can be used to predict the amount of area burnt by a fire by selecting a point on a map.
 ## Built Using
@@ -14,3 +20,9 @@ of the place selected on the map.
 * This data is used to calculate the various Fire Weather Indices.
 * The FWIs and the raw data from the API are fed into the Deep Regression model which 
 outputs  
+## Requirements
+* `keras`, `tensorflow`, `sklearn` for machine learning
+* `flask`, `flask-cors` for the API
+* `numpy` for linear algebra
+* `dill` for object saving
+* `pandas` for reading the training data in the form of `*.csv`

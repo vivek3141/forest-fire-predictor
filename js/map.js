@@ -63,7 +63,7 @@ function addDraggableMarker(map, behavior) {
                 }
 
                 document.getElementById("text").textContent = text;
-
+                document.getElementById("h4").innerHTML = "m<sup>2</sup>";
         };
     });
 }
