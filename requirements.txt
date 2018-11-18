@@ -3,3 +3,4 @@ flask
 numpy
 dill
 keras
+pandas
