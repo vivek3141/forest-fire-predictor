@@ -1,12 +1,13 @@
 from flask import Flask
 from flask import request, make_response
-import dill
+import pickle
 import numpy as np
 import os
 import datetime
 import json
 import urllib.request
 from src.fwi import *
+from src.test import build_model
 
 app = Flask(__name__)
 
@@ -49,10 +50,11 @@ def predict():
     data = str(X) + "," + str(Y) + "," + str(month) + "," + str(day) + "," + str(ffmc) + "," + str(
         dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind) + ',' + str(
         rain)
+    model = build_model()
+    model.load_weights("model_weights.h5")
     data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
-    svm_model = dill.load(open("src/model.pkl", "rb"))
-    predicted = svm_model.predict(data)
-    return str(predicted[0])
+    predicted = model.predict(data)
+    return str(predicted[0][0])
 
 
 if __name__ == "__main__":

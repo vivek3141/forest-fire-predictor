@@ -2,3 +2,4 @@ sklearn
 flask
 numpy
 dill
+keras
