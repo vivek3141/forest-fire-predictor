@@ -57,10 +57,9 @@ function addDraggableMarker(map, behavior) {
         request.send(null);
         request.onreadystatechange = function () {
             if (request.readyState == 4)
-                alert(request.responseText);
-        };
+                document.getElementById("text").textContent = request.responseText;
 
-        document.getElementById("text").textContent = value;
+        };
     });
 }
 
