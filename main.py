@@ -17,7 +17,7 @@ def predict():
     data = request.args.get('x')
     data = data[1:-1]
     data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
-    svm_model = dill.load(open("model.pkl", "rb"))
+    svm_model = dill.load(open("src/model.pkl", "rb"))
     predicted = svm_model.predict(data)
     return str(predicted[0])
 
