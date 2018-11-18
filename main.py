@@ -33,16 +33,20 @@ def predict():
 
     j = json.load(urllib.request.urlopen(url))
     print(j)
-    temp = j['main']['temp'] - 273.15
-    wind = j['wind']['speed'] * 3.6
-    rh = j['main']['humidity']
-    rain = ((j['rain']['3h']) / 6) / ((742300000 / 9) ** 2)
-    ffmc = FFMC(temp, rh, wind, j['rain']['3h'] * 8, 57.45)
-    dmc = DMC(temp, rh, rain, 146.2, c[0], month)
-    dc = DC(temp, rain, 434.25, c[0], month)
-    isi = ISI(wind, ffmc)
-    data = str(X) + "," + str(Y) + "," + str(month) + "," + str(day) + "," + str(ffmc) + "," + \
-           str(dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind)
+    try:
+        temp = j['main']['temp'] - 273.15
+        wind = j['wind']['speed'] * 3.6
+        rh = j['main']['humidity']
+        rain = ((j['rain']['3h']) / 6) / ((742300000 / 9) ** 2)
+        ffmc = FFMC(temp, rh, wind, j['rain']['3h'] * 8, 57.45)
+        dmc = DMC(temp, rh, j['rain']['3h'] * 8, 146.2, c[0], month)
+        dc = DC(temp, j['rain']['3h'] * 8, 434.25, c[0], month)
+        isi = ISI(wind, ffmc)
+    except KeyError:
+        return "Data Not Found!"
+    data = str(X) + "," + str(Y) + "," + str(month) + "," + str(day) + "," + str(ffmc) + "," + str(
+        dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind) + ',' + str(
+        rain)
     data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
     svm_model = dill.load(open("src/model.pkl", "rb"))
     predicted = svm_model.predict(data)
