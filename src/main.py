@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    return "HIIIIIIi"
+    return "<h1>Front Page</h1>"
 
 
 @app.route("/predict")
