@@ -17,4 +17,5 @@ temp = j['main']['temp'] - 273.15
 wind = j['wind']['speed'] * 3.6
 rh = j['main']['humidity']
 rain = ((j['rain']['3h']) / 6) / ((742300000 / 9) ** 2)
-ffmc = FFMC(temp,rh,wind,j['rain']['3h']*8,)
+ffmc = FFMC(temp, rh, wind, j['rain']['3h'] * 8, 57.45)
+dmc = DMC(temp,rh,rain,146.2,)

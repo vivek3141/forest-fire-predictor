@@ -6,6 +6,7 @@ import os
 import datetime
 import json
 import urllib.request
+from fwi import *
 
 app = Flask(__name__)
 
@@ -27,15 +28,19 @@ def predict():
     y1 = 41.732416
     X = int((9 * (c[0] - x1)) / (x2 - x1))
     Y = int((9 * (c[1] - y1)) / (y2 - y1))
-    ffmc = 0.0
-    dmc = 0.0
-    dc = 0.0
-    isi = 0.0
-    temp = 0.0
-    rh = 0.0
-    wind = 0.0
-    url = "api.openweathermap.org/data/2.5/weather?lat={}&lon={}".format(c[0], c[1])
+    url = "http://api.openweathermap.org/data/2.5/weather?lat={}&" \
+          "lon={}&appid=997248ab2a9c56c05cf48c93efca9b27".format(c[0], c[1])
+
     j = json.load(urllib.request.urlopen(url))
+    print(j)
+    temp = j['main']['temp'] - 273.15
+    wind = j['wind']['speed'] * 3.6
+    rh = j['main']['humidity']
+    rain = ((j['rain']['3h']) / 6) / ((742300000 / 9) ** 2)
+    ffmc = FFMC(temp, rh, wind, j['rain']['3h'] * 8, 57.45)
+    dmc = DMC(temp, rh, rain, 146.2, c[0], month)
+    dc = DC(temp, rain, 434.25, c[0], month)
+    isi = ISI(wind, ffmc)
     data = str(X) + "," + str(Y) + "," + str(month) + "," + str(day) + "," + str(ffmc) + "," + \
            str(dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind)
     data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
