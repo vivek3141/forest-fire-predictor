@@ -51,7 +51,7 @@ def predict():
         dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind) + ',' + str(
         rain)
     model = build_model()
-    model.load_weights("model_weights.h5")
+    model.load_weights("./src/model_weights.h5")
     data = np.array(list(map(float, data.split(",")))).reshape(-1, 1).T
     predicted = model.predict(data)
     return str(predicted[0][0])
