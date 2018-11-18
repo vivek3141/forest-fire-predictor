@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request
+from flask import request, make_response
 import dill
 import numpy as np
 import os
@@ -12,11 +12,13 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def main():
-    return "<h1>Front Page</h1>"
+def home():
+    resp = make_response("hello")
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
-@app.route("/predict")
+@app.route("/predict", methods=['GET', 'POST'])
 def predict():
     c = list(map(float, request.args.get('c')[1:-1].split(",")))
     now = datetime.datetime.now()
