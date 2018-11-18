@@ -60,7 +60,7 @@ def predict():
         dmc = DMC(temp, rh, j['rain']['3h'] * 8, 146.2, c[0], month)
         dc = DC(temp, j['rain']['3h'] * 8, 434.25, c[0], month)
         isi = ISI(wind, ffmc)
-    except:
+    except KeyError:
         return "Data Not Found!"
     data = str(X) + "," + str(Y) + "," + str(month) + "," + str(day) + "," + str(ffmc) + "," + str(
         dmc) + "," + str(dc) + "," + str(isi) + "," + str(temp) + "," + str(rh) + "," + str(wind) + ',' + str(

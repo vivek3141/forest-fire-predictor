@@ -57,7 +57,12 @@ function addDraggableMarker(map, behavior) {
         request.send(null);
         request.onreadystatechange = function () {
             if (request.readyState == 4)
-                document.getElementById("text").textContent = request.responseText;
+                var text = request.responseText;
+                if (!(isNaN(text))){
+                    text = parseFloat(request.responseText) * 10000;
+                }
+
+                document.getElementById("text").textContent = text;
 
         };
     });
