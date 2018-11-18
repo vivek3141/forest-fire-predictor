@@ -1,10 +1,11 @@
 import pandas as pd
-import dill
+import pickle
 from sklearn import preprocessing, svm
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
+import numpy as np
 
-data = pd.read_csv("./data.csv")
+data = pd.read_csv("data.csv")
 x_values = list(data['X'])
 y_values = list(data['Y'])
 month_values = list(data['month'])
@@ -60,14 +61,22 @@ for index in range(0, len(n_x_values)):
 
     n_attribute_list.append(temp_list)
 
-train_x, test_x, train_y, test_y = train_test_split(n_attribute_list, n_area_values, test_size=0.3, random_state=9)
+train_x, test_x, train_y, test_y = train_test_split(n_attribute_list, n_area_values, test_size=0.1, random_state=9)
 
 svm_model = svm.SVR()
 
 svm_model.fit(train_x, train_y)
 predicted_y = svm_model.predict(test_x)
 
+
 print("Mean squared error: ", mean_squared_error(test_y, predicted_y))
 print('Variance score: %.2f' % r2_score(test_y, predicted_y))
+data = "8,6,9,4,93.7,80.9,685.2,17.9,23.7,25,4.5,0"
+data = np.array(list(map(float, data.split(",")))).reshape(-1,1).T
+print(data.shape)
+svm_model = pickle.load(open("model.pkl", "rb"))
+predicted = svm_model.predict(data)
+print(predicted)
+pickle.dump(svm_model, open("model.pkl", "wb"))
 
-dill.dump(svm_model, open("model.pkl", "wb"))
+
