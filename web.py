@@ -6,6 +6,11 @@ import numpy as np
 app = Flask(__name__)
 
 
+@app.route("/")
+def main():
+    return "HIIIIIIi"
+
+
 @app.route("/predict")
 def predict():
     data = request.args.get('x')
